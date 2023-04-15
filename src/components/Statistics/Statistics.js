@@ -1,17 +1,38 @@
-export const Statistics = ({ data, title }) => {
-  console.log(data);
-  return (
-    <section class="statistics">
-      <h2 class="title">{title}</h2>
+import PropTypes from 'prop-types';
+import {
+  StatItem,
+  StatList,
+  StatsBody,
+  StatsTitle,
+  StatPercentage,
+  StatLabel,
+} from './statistics.styled';
+import { getRandomHexColor } from '../../Utils';
 
-      <ul class="stat-list">
+export const Statistics = ({ data, title }) => {
+  return (
+    <StatsBody>
+      <StatsTitle>{title}</StatsTitle>
+
+      <StatList>
         {data.map(({ id, label, percentage }) => (
-          <li key={id} class="item">
-            <span class="label">{label}</span>
-            <span class="percentage">{percentage}</span>
-          </li>
+          <StatItem key={id} color={getRandomHexColor()}>
+            <StatLabel class="label">{label}</StatLabel>
+            <StatPercentage class="percentage">{percentage}%</StatPercentage>
+          </StatItem>
         ))}
-      </ul>
-    </section>
+      </StatList>
+    </StatsBody>
   );
+};
+
+Statistics.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      percentage: PropTypes.number.isRequired,
+    })
+  ),
+  title: PropTypes.string.isRequired,
 };
